@@ -11,14 +11,14 @@
 
     <ion-item class="no-ripple">
       <ion-datetime  class="no-ripple" [preferWheel]="true"  min="2020-01-01" 
-      max="2050-12-31" locale="es-ES" presentation="date" [(ngModel)]="activity.fecha" name="date" displayFormat="DD/MM/YYYY" required></ion-datetime>
+      max="2050-12-31" locale="es-ES" presentation="date" [(ngModel)]="activity.fecha" name="date" displayFormat="DD/MM/YYYY"></ion-datetime>
     </ion-item>
 
     <ion-item>
       <ion-input type="number" label="Cantidad de horas" labelPlacement="floating" type="number" [(ngModel)]="activity.horas" name="hours" required></ion-input>
     </ion-item>
 
-    <ion-button type="submit" expand="full" [disabled]="!activityForm.form.valid">Guardar</ion-button>
+    <ion-button shape="round" type="submit" expand="full" [disabled]="!activityForm.form.valid">Guardar</ion-button>
   </form>
   </div>
 </div>

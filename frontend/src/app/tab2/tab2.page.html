@@ -1,17 +1,56 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>
-      Tab 2
-    </ion-title>
-  </ion-toolbar>
-</ion-header>
+<ion-content class="padding">
+  <div class="fullheight xc">
+    <div class="vcs content-wrapper">
+      <div class="left-align">
+        <ion-title size="large">Actividades</ion-title>
+      </div>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Tab 2</ion-title>
-    </ion-toolbar>
-  </ion-header>
+      <ion-searchbar
+        [debounce]="100"
+        (ionInput)="handleInput($event)"
+        placeholder="Buscar actividad"
+      ></ion-searchbar>
 
-  <app-explore-container name="Tab 2 page"></app-explore-container>
+      <ion-list lines="none" class="scrollableList" id="activityList">
+        <ion-item
+          class="listBlock"
+          *ngFor="let actividad of filteredActividades; let i = index"
+          (click)="toggleExpand(i)"
+        >
+            <ion-label class="actividadlabel">{{ actividad.nombre }}</ion-label>
+            <ion-item class="fullwidth" *ngIf="expandedIndex === i">
+              <div class="parent">
+                <div class="div1">
+                  <ion-text>{{ actividad.fecha | date:'dd/MM/yy' }}</ion-text>
+                </div>
+                <div class="div2">
+                  <ion-text>{{ actividad.horas }} horas</ion-text>
+                </div>
+                <div class="div3">
+                  <ion-button
+                    color="dark"
+                    (click)="buttonAction3($event, actividad)"
+                    >Asistencia</ion-button
+                  >
+                </div>
+                <div class="div4">
+                  <ion-button
+                    color="danger"
+                    (click)="buttonAction1($event, actividad)"
+                    >Eliminar</ion-button
+                  >
+                </div>
+                <div class="div5">
+                  <ion-button
+                    color="dark"
+                    (click)="buttonAction2($event, actividad)"
+                    >Editar</ion-button
+                  >
+                </div>
+              </div>
+            </ion-item>
+        </ion-item>
+      </ion-list>
+    </div>
+  </div>
 </ion-content>

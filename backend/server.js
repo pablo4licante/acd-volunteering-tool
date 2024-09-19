@@ -28,7 +28,7 @@ app.post("/add-actividad", async (req, res) => {
   }
 
   try {
-    await database.sql`INSERT INTO Actividades (nombre, fecha, horas) VALUES (${nombre}, ${fecha}, ${horas})`;
+    await database.sql`USE DATABASE volunteerDB; INSERT INTO Actividades (nombre, fecha, horas) VALUES (${nombre}, ${fecha}, ${horas})`;
     res.status(201).json({ message: "Actividad agregada correctamente" });
   } catch (error) {
     console.error("Error al agregar actividad:", error.message);
@@ -39,7 +39,7 @@ app.post("/add-actividad", async (req, res) => {
 // Ruta para obtener todas las actividades
 app.get("/actividades", async (req, res) => {
   try {
-    const result = await database.sql`SELECT * FROM Actividades`;
+    const result = await database.sql`USE DATABASE volunteerDB; SELECT * FROM Actividades`;
     res.json(result);
   } catch (error) {
     console.error("Error al obtener actividades:", error.message);
@@ -52,7 +52,7 @@ app.get("/actividad/:id", async (req, res) => {
   const { id } = req.params;
   try {
     const result =
-      await database.sql`SELECT * FROM Actividades WHERE id = ${id}`;
+      await database.sql` USE DATABASE volunteerDB; SELECT * FROM Actividades WHERE id = ${id}`;
     res.json(result);
   } catch (error) {
     console.error("Error al obtener la actividad:", error.message);
@@ -75,7 +75,7 @@ app.put("/update-actividad/:id", async (req, res) => {
   }
 
   try {
-    await database.sql`UPDATE Actividades SET nombre = ${nombre}, fecha = ${fecha}, horas = ${horas} WHERE id = ${id}`;
+    await database.sql`USE DATABASE volunteerDB; UPDATE Actividades SET nombre = ${nombre}, fecha = ${fecha}, horas = ${horas} WHERE id = ${id}`;
     res.json({ message: "Actividad actualizada correctamente" });
   } catch (error) {
     console.error("Error al actualizar actividad:", error.message);
@@ -87,7 +87,7 @@ app.put("/update-actividad/:id", async (req, res) => {
 app.delete("/delete-actividad/:id", async (req, res) => {
   const { id } = req.params;
   try {
-    await database.sql`DELETE FROM Actividades WHERE id = ${id}`;
+    await database.sql`USE DATABASE volunteerDB; DELETE FROM Actividades WHERE id = ${id}`;
     res.json({ message: "Actividad eliminada correctamente" });
   } catch (error) {
     console.error("Error al eliminar actividad:", error.message);
@@ -98,5 +98,5 @@ app.delete("/delete-actividad/:id", async (req, res) => {
 // Iniciar el servidor
 app.listen(port, () => {
   console.log(`Server running at http://localhost:${port}`);
-  database.sql`USE DATABASE volunteerDB`;
+  database.sql`USE DATABASE volunteerDB;`;
 });
