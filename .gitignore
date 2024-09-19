@@ -15,3 +15,5 @@
 /frontend/.vscode
 /frontend/dist
 /frontend/build
+
+/node_modules

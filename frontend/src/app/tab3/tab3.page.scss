@@ -1,1 +1,50 @@
+.fullheight {
+  height: 100%;
+}
 
+.xc {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.vcs {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.hcs {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.left-align {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: flex-start;
+  text-align: left;
+  width: 100%;
+  margin-left: -10px;
+}
+
+.padding {
+  padding: 10px;
+}
+
+ion-title {
+  font-size: 1.5em;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+.no-ripple {
+  --ripple-color: transparent;
+--background-hover: transparent;
+}
+
+ion-button {
+  margin-top: 40px;
+}

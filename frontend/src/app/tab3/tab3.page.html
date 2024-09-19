@@ -1,19 +1,25 @@
-<ion-content padding>
-
+<ion-content class="padding">
+<div class="fullheight xc">
+  <div class="vcs">
+    <div class="left-align">
+    <ion-title size="large">Nueva actividad</ion-title>
+  </div>
   <form (ngSubmit)="onSubmit()" #activityForm="ngForm">
     <ion-item>
-      <ion-input pattern="[A-Za-z0-9 ]+" label="Nombre de la Actividad" labelPlacement="floating" type="text" [(ngModel)]="activity.name" name="name" required></ion-input>
+      <ion-input pattern="[A-Za-z0-9 ]+" label="Nombre de la actividad" labelPlacement="floating" type="text" [(ngModel)]="activity.nombre" name="name" required></ion-input>
+    </ion-item>
+
+    <ion-item class="no-ripple">
+      <ion-datetime  class="no-ripple" [preferWheel]="true"  min="2020-01-01" 
+      max="2050-12-31" locale="es-ES" presentation="date" [(ngModel)]="activity.fecha" name="date" displayFormat="DD/MM/YYYY" required></ion-datetime>
     </ion-item>
 
     <ion-item>
-      <ion-datetime [preferWheel]="true"  min="2020-01-01" 
-      max="2050-12-31" locale="es-ES" presentation="date" [(ngModel)]="activity.date" name="date" displayFormat="DD/MM/YYYY" required></ion-datetime>
-    </ion-item>
-
-    <ion-item>
-      <ion-input type="number" label="Cantidad de Horas" labelPlacement="floating" type="number" [(ngModel)]="activity.hours" name="hours" required></ion-input>
+      <ion-input type="number" label="Cantidad de horas" labelPlacement="floating" type="number" [(ngModel)]="activity.horas" name="hours" required></ion-input>
     </ion-item>
 
     <ion-button type="submit" expand="full" [disabled]="!activityForm.form.valid">Guardar</ion-button>
   </form>
+  </div>
+</div>
 </ion-content>
