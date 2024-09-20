@@ -65,5 +65,83 @@ export class DatabaseserviceService {
           return throwError(error);
         })
       );
-  }  
+    }
+  // Función para agregar un voluntario
+  addVoluntario(voluntario: any): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}/add-voluntario`, voluntario)
+      .pipe(
+        catchError(error => {
+          console.error('Error al agregar voluntario', error);
+          return throwError(() => error);
+        })
+      );
+  }
+  
+  // Función para iniciar sesión
+  login(email: string, password: string): Observable<any> {
+    const headers = { 'Content-Type': 'application/json' };
+    return this.http.post<any>(`${this.apiUrl}/login`, { email, password }, { headers })
+      .pipe(
+        catchError(error => {
+          console.error('Error al iniciar sesión', error);
+          return throwError(() => error);
+        })
+      );
+  }
+
+  getUserInfo(token: string): Observable<any> {
+    const headers = { 'Authorization': `Bearer ${token}` };
+    return this.http.get<any>(`${this.apiUrl}/get-user-info`, { headers })
+      .pipe(
+        catchError(error => {
+          console.error('Error al obtener información del usuario', error);
+          return throwError(() => error);
+        })
+      );
+  }
+  
+
+  // Función para obtener todos los voluntarios
+  getVoluntarios(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}/voluntarios`)
+      .pipe(
+        catchError(error => {
+          console.error('Error al obtener voluntarios', error);
+          return throwError(() => error);
+        })
+      );
+  }
+
+  // Función para obtener un voluntario por email
+  getVoluntarioByEmail(email: string): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/voluntario/${email}`)
+      .pipe(
+        catchError(error => {
+          console.error('Error al obtener voluntario', error);
+          return throwError(() => error);
+        })
+      );
+  }
+
+  // Función para actualizar un voluntario
+  updateVoluntario(email: string, voluntario: any): Observable<any> {
+    return this.http.put<any>(`${this.apiUrl}/update-voluntario/${email}`, voluntario)
+      .pipe(
+        catchError(error => {
+          console.error('Error al actualizar voluntario', error);
+          return throwError(() => error);
+        })
+      );
+  }
+
+  // Función para eliminar un voluntario
+  deleteVoluntario(email: string): Observable<any> {
+    return this.http.delete<any>(`${this.apiUrl}/delete-voluntario/${email}`)
+      .pipe(
+        catchError(error => {
+          console.error('Error al eliminar voluntario', error);
+          return throwError(() => error);
+        })
+      );
+  }
 }
