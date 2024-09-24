@@ -14,6 +14,11 @@ ion-title {
     margin-bottom: 20px;
 }
 
+ion-button {
+    width: 100%;
+    display: none;
+}
+
 ion-card {
     > ion-card-content{
         > p {

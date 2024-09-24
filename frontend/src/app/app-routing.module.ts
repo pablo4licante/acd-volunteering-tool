@@ -1,10 +1,13 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
+import { AuthGuard } from './auth.guard';
+import { AdminAuthGuard } from './guards/adminauth.guard';
 
 const routes: Routes = [
   {
     path: '',
-    loadChildren: () => import('./tabs/tabs.module').then(m => m.TabsPageModule)
+    loadChildren: () => import('./tabs/tabs.module').then(m => m.TabsPageModule),
+    canActivate: [AuthGuard, AdminAuthGuard]
   },
   {
     path: 'login',
@@ -13,6 +16,9 @@ const routes: Routes = [
   {
     path: 'registro',
     loadChildren: () => import('./registro/registro.module').then( m => m.RegistroPageModule)
+  },
+  { path: 'asistencia/:id', loadChildren: () => import('./asistencia/asistencia.module').then( m => m.AsistenciaPageModule),
+    canActivate: [AuthGuard, AdminAuthGuard]
   }
 ];
 @NgModule({

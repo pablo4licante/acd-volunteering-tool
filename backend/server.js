@@ -52,7 +52,7 @@ app.get("/actividad/:id", async (req, res) => {
   const { id } = req.params;
   try {
     const result = await database.sql`USE DATABASE volunteerDB; SELECT * FROM Actividades WHERE id = ${id}`;
-    res.json(result);
+    res.json(result[0]);
   } catch (error) {
     console.error("Error al obtener la actividad:", error.message);
     res.status(500).json({ error: error.message });
@@ -78,9 +78,7 @@ app.put("/update-actividad/:id", async (req, res) => {
     let nombreMod = req.body.nombre;
     let horasMod = req.body.horas;
 
-    // Depuración: Imprimir la consulta que se va a ejecutar
-    console.log(`UPDATE Actividades SET nombre = '${nombreMod}', fecha = '${fechaMod}', horas = ${horasMod} WHERE id = ${id}`);
-
+    
     // Realizar la actualización en la base de datos
     const result = await database.sql`
       UPDATE Actividades 
@@ -224,22 +222,45 @@ app.post("/login", async (req, res) => {
   }
 });
 
-// Ruta para obtener información del usuario autenticado
-app.get('/get-user-info', authenticateToken, async (req, res) => {
-  console.log("Email del usuario autenticado:", req.userEmail); // Registro para depuración
+// Ruta para registrar un nuevo usuario
+app.post("/register", async (req, res) => {
+  const { nombre, apellidos, email, fechaNacimiento, password } = req.body;
+
+  if (!nombre || !apellidos || !email || !fechaNacimiento || !password) {
+    return res.status(400).json({ error: "Todos los campos son requeridos" });
+  }
 
   try {
+    // Verificar si el usuario ya existe
+    const existingUser = await database.sql`USE DATABASE volunteerDB; SELECT * FROM Voluntarios WHERE email = ${email}`;
+    if (existingUser.length > 0) {
+      return res.status(409).json({ error: "El usuario ya existe" });
+    }
+
+    // Insertar el nuevo usuario
+    await database.sql`USE DATABASE volunteerDB; INSERT INTO Voluntarios (nombre, apellidos, email, fechaNacimiento, password, administrador) VALUES (${nombre}, ${apellidos}, ${email}, ${fechaNacimiento}, ${password}, false)`;
+    res.status(201).json({ message: "Usuario registrado correctamente" });
+  } catch (error) {
+    console.error("Error al registrar usuario:", error.message);
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// Ruta para obtener información del usuario autenticado
+app.get('/get-user-info', authenticateToken, async (req, res) => {
+  
+  try {
     const email = req.userEmail; // Extraer el email del middleware
-    const result = await database.sql`USE DATABASE volunteerDB; SELECT nombre FROM Voluntarios WHERE email = ${email}`;
+    const result = await database.sql`USE DATABASE volunteerDB; SELECT nombre, administrador FROM Voluntarios WHERE email = ${email}`;
 
     if (result.length === 0) {
       return res.status(404).json({ error: 'Usuario no encontrado.' });
     }
 
     const user = result[0]; // Obtener el primer (y único) resultado
-    console.log(result[0])
     res.json({
-      nombre: user.Nombre // Incluir apellidos si lo necesitas
+      nombre: user.Nombre,
+      administrador: user.Administrador
     });
   } catch (error) {
     console.error('Error al obtener la información del usuario:', error.message);
@@ -247,6 +268,66 @@ app.get('/get-user-info', authenticateToken, async (req, res) => {
   }
 });
 
+// Ruta para agregar asistencia
+app.post("/add-asistencia", async (req, res) => {
+  const { email, actividadId } = req.body;
+
+  if (!email || !actividadId) {
+    return res.status(400).json({ error: "Email y actividadId son requeridos" });
+  }
+
+  try {
+    // Verificar si ya existe la asistencia
+    const existing = await database.sql`USE DATABASE volunteerDB; SELECT * FROM Asistencia WHERE Voluntario = ${email} AND Actividad = ${actividadId}`;
+    
+    if (existing.length > 0) {
+      return res.status(200).json({ message: "La asistencia ya existe" });
+    }
+
+    // Insertar la nueva asistencia
+    await database.sql`USE DATABASE volunteerDB; INSERT INTO Asistencia (Voluntario, Actividad) VALUES (${email}, ${actividadId})`;
+    res.status(201).json({ message: "Asistencia agregada correctamente" });
+  } catch (error) {
+    console.error("Error al agregar asistencia:", error.message);
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// Ruta para eliminar asistencia
+app.delete("/delete-asistencia", async (req, res) => {
+  const { email, actividadId } = req.body;
+
+  if (!email || !actividadId) {
+    return res.status(400).json({ error: "Email y actividadId son requeridos" });
+  }
+
+  try {
+    const existing = await database.sql`USE DATABASE volunteerDB; SELECT * FROM Asistencia WHERE Voluntario = ${email} AND Actividad = ${actividadId}`;
+    
+    if (existing.length === 0) {
+      return res.status(200).json({ message: "La asistencia no existe, no se requiere eliminación" });
+    }
+
+    await database.sql`USE DATABASE volunteerDB; DELETE FROM Asistencia WHERE Voluntario = ${email} AND Actividad = ${actividadId}`;
+    res.json({ message: "Asistencia eliminada correctamente" });
+  } catch (error) {
+    console.error("Error al eliminar asistencia:", error.message);
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// Ruta para obtener todos los usuarios de la tabla Asistencia en base a una id de actividad
+app.get("/asistencia/:actividadId", async (req, res) => {
+  const { actividadId } = req.params;
+
+  try {
+    const result = await database.sql`USE DATABASE volunteerDB; SELECT Voluntario FROM Asistencia WHERE Actividad = ${actividadId}`;
+    res.json(result);
+  } catch (error) {
+    console.error("Error al obtener usuarios de la asistencia:", error.message);
+    res.status(500).json({ error: error.message });
+  }
+});
 
 // Iniciar el servidor
 app.listen(port, () => {

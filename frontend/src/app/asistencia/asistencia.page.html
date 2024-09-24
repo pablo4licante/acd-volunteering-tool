@@ -1,0 +1,23 @@
+
+
+<ion-content [fullscreen]="true">
+  
+
+  <div class="page-container">
+    <div class="elements-container">
+      <div class="title-box">
+  <ion-title>{{ asistenciaTitle }}</ion-title>
+</div>
+  <ion-list>
+    <ion-item *ngFor="let usuario of usuarios" class="no-ripple">
+      <ion-label>
+        <h2>{{ usuario.Nombre }} {{ usuario.Apellidos }}</h2> <!-- Usa propiedades con mayúscula -->
+        <p>{{ usuario.Email }}</p> <!-- Muestra el correo si es necesario -->
+          </ion-label>
+          <ion-checkbox [checked]="usuario.checked" (ionChange)="onCheckboxChange($event, usuario)"></ion-checkbox>
+    </ion-item>
+  </ion-list>
+  </div>
+  </div>
+  
+</ion-content>

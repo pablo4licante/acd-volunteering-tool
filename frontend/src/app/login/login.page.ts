@@ -20,13 +20,10 @@ export class LoginPage implements OnInit {
     this.databaseService.login(this.email, this.password).subscribe({
       next: (response) => {
       if (response && response.success && response.token) {
-        console.log('Login successful');
         localStorage.setItem('jwtToken', response.token);
         // Redirigir al usuario a /tabs/tab1
         window.location.href = '/tabs/tab1';
-      } else {
-        console.log('Email o contraseña incorrectos');
-      }
+      } 
       },
       error: (error) => {
       console.error('Error al iniciar sesión', error);

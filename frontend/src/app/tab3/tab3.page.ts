@@ -25,7 +25,6 @@ export class Tab3Page {
       // Llama al método del servicio para agregar la actividad
       this.databaseService.addActividad(this.activity).subscribe(
         response => {
-          console.log('Actividad agregada exitosamente:', response);
           // Limpia el formulario o realiza otras acciones según sea necesario
           this.activity = { nombre: '', fecha: '', horas: 0 };
           this.router.navigate(['/tabs/tab1']);

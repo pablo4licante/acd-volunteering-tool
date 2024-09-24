@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { DatabaseserviceService } from '../services/databaseservice.service';
+import { Router } from '@angular/router';
+
 
 @Component({
   selector: 'app-tab1',
@@ -9,17 +11,16 @@ import { DatabaseserviceService } from '../services/databaseservice.service';
 export class Tab1Page implements OnInit {
   eventDetails: string | undefined;
 
-  constructor(private databaseService: DatabaseserviceService
+  constructor(private databaseService: DatabaseserviceService, private router : Router
   ) {}
   
   pageTitle = '';
+  actividad: any;
 
   ngOnInit(): void {
     const token = localStorage.getItem('jwtToken');
-    console.log(token);
     if (token) {
       this.databaseService.getUserInfo(token).subscribe(userInfo => {
-        console.log(userInfo);
         this.pageTitle = userInfo.nombre;
         this.fetchEventosHoy();
       }, error => {
@@ -35,18 +36,35 @@ export class Tab1Page implements OnInit {
   private fetchEventosHoy() {
     this.databaseService.getEventosHoy().subscribe(eventos => {
       if (eventos.length > 0) {
-        console.log('Eventos de hoy:', eventos);
         // Assuming you want to display the first event's information
         const evento = eventos[0];
+        this.actividad = evento;
         this.eventDetails = `Hoy tenemos el evento ${evento.nombre}. (~˘▾˘)~`;
+        const botonAsistencia = document.getElementById('botonasistencia');
+        if (botonAsistencia) {
+          botonAsistencia.style.display = 'block';
+        }
       } else {
-        console.log('No hay eventos hoy');
+        const botonAsistencia = document.getElementById('botonasistencia');
+        if (botonAsistencia) {
+          botonAsistencia.style.display = 'none';
+        }
         this.eventDetails = 'No hay eventos hoy (╯°□°）╯︵ ┻━┻';
       }
     }, error => {
+      
+      const botonAsistencia = document.getElementById('botonasistencia');
+      if (botonAsistencia) {
+        botonAsistencia.style.display = 'none';
+      }
       console.error('Error al obtener eventos de hoy', error);
       this.eventDetails = 'No hay eventos hoy (╯°□°）╯︵ ┻━┻';
     });
+  }
+
+  gotoAsistencia(event: Event) {
+    event.stopPropagation(); // Evita que el clic en el botón también expanda/colapse el ítem
+    this.router.navigate([`/asistencia/${this.actividad.id}`]);
   }
   
 }

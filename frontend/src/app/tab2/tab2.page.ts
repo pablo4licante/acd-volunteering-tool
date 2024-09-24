@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { Actividad } from '../interfaces/actividad';
 import { DatabaseserviceService } from '../services/databaseservice.service';
 import Fuse from 'fuse.js';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-tab2',
@@ -14,7 +15,7 @@ export class Tab2Page {
   fuse: Fuse<Actividad> = new Fuse([], { keys: ['nombre'] });
   expandedIndex: number | null = null; // Indice del ítem expandido
 
-  constructor(private databaseService: DatabaseserviceService) {}
+  constructor(private databaseService: DatabaseserviceService, private router: Router) {}
 
   ionViewWillEnter() {
     this.databaseService.getActividades().subscribe(
@@ -48,7 +49,6 @@ export class Tab2Page {
 
   buttonAction1(event: Event, actividad: Actividad) {
     event.stopPropagation(); // Evita que el clic en el botón también expanda/colapse el ítem
-    console.log('Botón 1', actividad);
     if (actividad.id !== undefined) {
       this.databaseService.deleteActividad(actividad.id).subscribe(
         () => {
@@ -68,11 +68,10 @@ export class Tab2Page {
 
   buttonAction2(event: Event, actividad: Actividad) {
     event.stopPropagation(); // Evita que el clic en el botón también expanda/colapse el ítem
-    console.log('Botón 2', actividad);
-  }
+     }
 
   buttonAction3(event: Event, actividad: Actividad) {
     event.stopPropagation(); // Evita que el clic en el botón también expanda/colapse el ítem
-    console.log('Botón 3', actividad);
-  }
+    this.router.navigate([`/asistencia/${actividad.id}`]);
+    }
 }

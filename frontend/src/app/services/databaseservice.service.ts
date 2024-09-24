@@ -156,4 +156,48 @@ export class DatabaseserviceService {
         })
       );
   }
+
+  // Función para agregar asistencia
+  addAsistencia(asistencia: { email: string, actividadId: number }): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}/add-asistencia`, asistencia)
+      .pipe(
+        catchError(error => {
+          console.error('Error al agregar asistencia', error);
+          return throwError(() => error);
+        })
+      );
+  }
+
+  // Función para obtener todos los usuarios de la tabla Asistencia en base a una id de actividad
+  getUsuariosByActividadId(actividadId: number): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}/asistencia/${actividadId}`)
+      .pipe(
+        catchError(error => {
+          console.error('Error al obtener usuarios de la asistencia', error);
+          return throwError(() => error);
+        })
+      );
+  }
+
+  // Función para registrar un nuevo usuario
+  register(usuario: any): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}/register`, usuario)
+      .pipe(
+        catchError(error => {
+          console.error('Error al registrar usuario', error);
+          return throwError(() => error);
+        })
+      );
+  }
+
+  // Función para eliminar asistencia
+  deleteAsistencia(asistencia: { email: string, actividadId: number }): Observable<any> {
+    return this.http.request<any>('delete', `${this.apiUrl}/delete-asistencia`, { body: asistencia })
+      .pipe(
+        catchError(error => {
+          console.error('Error al eliminar asistencia', error);
+          return throwError(() => error);
+        })
+      );
+  }
 }
