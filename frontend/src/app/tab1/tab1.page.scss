@@ -1,0 +1,26 @@
+.page-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%; 
+  }
+
+.elements-container {
+  width: 100%;
+  max-width: 400px;
+}
+
+ion-title {
+    margin-bottom: 20px;
+}
+
+ion-card {
+    > ion-card-content{
+        > p {
+            font-size: 16px;
+            > b {
+                color: black;
+            }
+        }
+    }
+}

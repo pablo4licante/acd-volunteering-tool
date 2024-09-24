@@ -27,7 +27,8 @@ app.post("/add-actividad", async (req, res) => {
   }
 
   try {
-    await database.sql`USE DATABASE volunteerDB; INSERT INTO Actividades (nombre, fecha, horas) VALUES (${nombre}, ${fecha}, ${horas})`;
+    let fechaMod = new Date(fecha).toISOString().split('T')[0]; // Convertir la fecha a formato YYYY-MM-DD
+    await database.sql`USE DATABASE volunteerDB; INSERT INTO Actividades (nombre, fecha, horas) VALUES (${nombre}, ${fechaMod}, ${horas})`;
     res.status(201).json({ message: "Actividad agregada correctamente" });
   } catch (error) {
     console.error("Error al agregar actividad:", error.message);
@@ -70,13 +71,34 @@ app.put("/update-actividad/:id", async (req, res) => {
   }
 
   try {
-    await database.sql`USE DATABASE volunteerDB; UPDATE Actividades SET nombre = ${nombre}, fecha = ${fecha}, horas = ${horas} WHERE id = ${id}`;
+    // Convertir la fecha a formato YYYY-MM-DD
+    let fechaMod = new Date(fecha).toISOString().split('T')[0];
+    
+    // Variables para actualizar
+    let nombreMod = req.body.nombre;
+    let horasMod = req.body.horas;
+
+    // Depuración: Imprimir la consulta que se va a ejecutar
+    console.log(`UPDATE Actividades SET nombre = '${nombreMod}', fecha = '${fechaMod}', horas = ${horasMod} WHERE id = ${id}`);
+
+    // Realizar la actualización en la base de datos
+    const result = await database.sql`
+      UPDATE Actividades 
+      SET nombre = ${nombreMod}, fecha = ${fechaMod}, horas = ${horasMod} 
+      WHERE id = ${id}`;
+
+    // Verificar si se realizaron cambios
+    if (result.changes === 0) {
+      return res.status(404).json({ error: "Actividad no encontrada" });
+    }
+
     res.json({ message: "Actividad actualizada correctamente" });
   } catch (error) {
     console.error("Error al actualizar actividad:", error.message);
     res.status(500).json({ error: error.message });
   }
 });
+
 
 // Ruta para eliminar una actividad
 app.delete("/delete-actividad/:id", async (req, res) => {
@@ -156,6 +178,23 @@ app.delete("/delete-voluntario/:email", async (req, res) => {
     res.json({ message: "Voluntario eliminado correctamente" });
   } catch (error) {
     console.error("Error al eliminar voluntario:", error.message);
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// Ruta para obtener eventos de hoy
+app.get("/eventos-hoy", async (req, res) => {
+  const today = new Date().toISOString().split('T')[0]; // Obtener la fecha de hoy en formato YYYY-MM-DD
+
+  try {
+    const result = await database.sql`USE DATABASE volunteerDB; SELECT * FROM Actividades WHERE fecha = ${today}`;
+    if (result.length > 0) {
+      res.json(result);
+    } else {
+      res.status(404).json({ message: `No hay eventos para hoy dia ${today}` });
+    }
+  } catch (error) {
+    console.error("Error al obtener eventos de hoy:", error.message);
     res.status(500).json({ error: error.message });
   }
 });

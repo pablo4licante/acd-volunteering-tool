@@ -17,7 +17,6 @@ export class LoginPage implements OnInit {
   password = '';
 
   onSubmit() {
-    console.log(this.email, this.password);
     this.databaseService.login(this.email, this.password).subscribe({
       next: (response) => {
       if (response && response.success && response.token) {

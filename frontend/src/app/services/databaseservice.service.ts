@@ -89,6 +89,18 @@ export class DatabaseserviceService {
       );
   }
 
+  // Función para obtener eventos de hoy
+  getEventosHoy(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}/eventos-hoy`)
+      .pipe(
+        catchError(error => {
+          console.error('Error al obtener eventos de hoy', error);
+          return throwError(() => error);
+        })
+      );
+  }
+
+  // Devuelve la informacion del usuario en base a su JWT Token
   getUserInfo(token: string): Observable<any> {
     const headers = { 'Authorization': `Bearer ${token}` };
     return this.http.get<any>(`${this.apiUrl}/get-user-info`, { headers })
