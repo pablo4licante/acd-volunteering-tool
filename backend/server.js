@@ -9,6 +9,7 @@ const authenticateToken = require('./middleware/JWT'); // Ruta al archivo del mi
 
 // Configurar body-parser para manejar datos JSON
 app.use(cors());
+app.use(cors({ origin: '*' }));
 app.use(bodyParser.json());
 
 // Conectar a SQLite Cloud usando @sqlitecloud/drivers
