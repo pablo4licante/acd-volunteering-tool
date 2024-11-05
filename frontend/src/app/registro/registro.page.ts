@@ -31,8 +31,8 @@ export class RegistroPage implements OnInit {
 
     this.databaseService.addVoluntario(voluntario).subscribe(
       response => {
-        console.log('Voluntario registrado exitosamente', response);
-        this.router.navigate(['/login']); // Redirigir a la página de inicio de sesión
+        alert('Te has registrado exitosamente ' + voluntario.nombre + '!');
+        this.router.navigate(['/what-now']); // Redirigir a la página de inicio de sesión
       },
       error => {
         console.error('Error al registrar voluntario', error);

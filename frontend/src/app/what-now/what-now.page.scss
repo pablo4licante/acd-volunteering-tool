@@ -1,3 +1,36 @@
+ion-content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    height: 100%;
+}
+
+.landing-text {
+    font-family: 'Arial', sans-serif;
+    color: #333;
+    padding: 20px;
+    border-radius: 10px;
+    max-width: 600px;
+    margin: 0 auto;
+
+    h2 {
+        font-size: 2.5em;
+        margin-bottom: 10px;
+        color: #007bff;
+    }
+
+    p {
+        font-size: 1.2em;
+        line-height: 1.5;
+        margin-bottom: 15px;
+    }
+
+    .emoji {
+        font-size: 1.5em;
+    }
+}
+
 .login-container {
     display: flex;
     justify-content: center;

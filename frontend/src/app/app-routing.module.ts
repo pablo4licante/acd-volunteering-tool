@@ -19,6 +19,10 @@ const routes: Routes = [
   },
   { path: 'asistencia/:id', loadChildren: () => import('./asistencia/asistencia.module').then( m => m.AsistenciaPageModule),
     canActivate: [AuthGuard, AdminAuthGuard]
+  },
+  {
+    path: 'what-now',
+    loadChildren: () => import('./what-now/what-now.module').then( m => m.WhatNowPageModule)
   }
 ];
 @NgModule({

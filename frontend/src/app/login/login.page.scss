@@ -1,14 +1,36 @@
 .login-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100%;
-  }
-  ion-card {
-    width: 100%;
-    max-width: 400px;
-  }
+  display: flex;
+  justify-content: center;
+  align-items: start;
+  height: 100%;
+}
+ion-card {
+  width: 100%;
+  max-width: 400px;
+}
 
-  .mb10{
-    margin-bottom: 30px;
-  }
+
+.no-ripple {
+  --ripple-color: transparent;
+--background-hover: transparent;
+}
+
+.logo {
+  width: 100%;
+  max-width: 200px;
+  height: auto;
+  z-index: 100;
+}
+
+.logo-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width:100%;
+  margin-top:1rem;
+  margin-bottom: 1rem;
+}
+
+.mb10{
+  margin-bottom: 30px;
+}
