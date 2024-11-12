@@ -1,0 +1,22 @@
+{
+	"name": "ACD Toolkit",
+	"short_name": "ACD Toolkit",
+	"description": "ACD Toolkit is a collection of tools for the ACD La Hoya's Organization.",
+	"start_url": "/index.php",
+	"scope": "/",
+	"display": "standalone",
+	"background_color": "#ffffff",
+	"theme_color": "#086238",
+	"icons": [
+		{
+			"src": "/assets/icons/icon-192x192.png",
+			"sizes": "192x192",
+			"type": "image/png"
+		},
+		{
+			"src": "/assets/icons/icon-512x512.png",
+			"sizes": "512x512",
+			"type": "image/png"
+		}
+	]
+}

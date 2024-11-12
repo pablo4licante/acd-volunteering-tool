@@ -1,7 +1,0 @@
-{
-  "name": "ACD Volunteering Tool",
-  "integrations": {
-    "capacitor": {}
-  },
-  "type": "angular"
-}
