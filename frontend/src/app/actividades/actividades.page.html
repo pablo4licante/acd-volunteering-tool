@@ -1,0 +1,20 @@
+
+<ion-content [fullscreen]="true">
+  
+  
+  <div class="page-container">
+    <div class="elements-container">
+      <div class="title">
+        <ion-title> Proximas Actividades </ion-title>
+      </div>
+  <ion-list>
+    <ion-item *ngFor="let actividad of actividades" class="no-ripple">
+      <ion-label class="title-box">
+        <h2>{{ actividad.nombre }}</h2>
+        <p>{{ actividad.fecha }}</p>
+      </ion-label>
+    </ion-item>
+  </ion-list>
+    </div>
+  </div>
+</ion-content>

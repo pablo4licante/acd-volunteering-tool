@@ -23,7 +23,12 @@ const routes: Routes = [
   {
     path: 'what-now',
     loadChildren: () => import('./what-now/what-now.module').then( m => m.WhatNowPageModule)
-  }
+  },
+  {
+    path: 'actividades',
+    loadChildren: () => import('./actividades/actividades.module').then( m => m.ActividadesPageModule),
+    canActivate: [AuthGuard]
+  },
 ];
 @NgModule({
   imports: [

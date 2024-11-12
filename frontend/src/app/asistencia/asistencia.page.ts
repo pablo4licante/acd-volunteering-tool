@@ -2,13 +2,14 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DatabaseserviceService } from '../services/databaseservice.service';
 import { Actividad } from '../interfaces/actividad';
+import { ViewWillEnter } from '@ionic/angular';
 
 @Component({
   selector: 'app-asistencia',
   templateUrl: './asistencia.page.html',
   styleUrls: ['./asistencia.page.scss'],
 })
-export class AsistenciaPage implements OnInit {
+export class AsistenciaPage implements OnInit, ViewWillEnter {
 
   actividadID: string = '';
   asistenciaTitle: string = '';
@@ -17,6 +18,10 @@ export class AsistenciaPage implements OnInit {
   constructor(private activatedRoute: ActivatedRoute, private router: Router, private databaseService: DatabaseserviceService) { }
 
   ngOnInit() {
+    this.ionViewWillEnter();
+  }
+
+  ionViewWillEnter() {
     this.actividadID = this.activatedRoute.snapshot.paramMap.get('id') ?? '';
     this.databaseService.getActividadById(parseInt(this.actividadID)).subscribe(
       (actividad: Actividad | null) => {

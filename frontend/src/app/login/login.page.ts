@@ -22,7 +22,7 @@ export class LoginPage implements OnInit {
       if (response && response.success && response.token) {
         localStorage.setItem('jwtToken', response.token);
         // Redirigir al usuario a /tabs/tab1
-        window.location.href = '/tabs/tab1';
+        window.location.href = '/actividades';
       } 
       },
       error: (error) => {

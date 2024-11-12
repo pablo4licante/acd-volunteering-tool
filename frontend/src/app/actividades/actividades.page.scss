@@ -1,0 +1,53 @@
+
+ion-content {
+    background-color: lightgray;
+}
+
+.no-ripple {
+    --ripple-color: transparent;
+  --background-hover: transparent;
+  }
+
+
+  ion-checkbox {
+    position:absolute;
+    left:340px;
+    --size: 28px;
+  }
+
+  .page-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%; 
+  }
+
+.elements-container {
+  width: 100%;
+  max-width: 400px;
+}
+
+.title-box{
+    width:100%;
+    border: 1px solid #AAA;
+    border-radius: 10px;
+    padding: 20px;
+    padding-left:0px;
+    margin-bottom: 10px;
+}
+
+.title-box{
+    width:100%;
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 10px;
+}
+
+
+ion-title {
+    font-size: 1.3em;
+  }
+
+ion-label {
+    padding: 0.3rem;
+}
